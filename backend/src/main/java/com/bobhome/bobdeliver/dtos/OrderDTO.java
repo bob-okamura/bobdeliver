@@ -41,6 +41,7 @@ public class OrderDTO implements Serializable{
 		longitude = entity.getLongitude();
 		moment = entity.getMoment();
 		status = entity.getStatus();
+		//products = entity.getProducts().stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
 	}
 	
 	public OrderDTO(Order entity, Set<Product> listProducts) {
