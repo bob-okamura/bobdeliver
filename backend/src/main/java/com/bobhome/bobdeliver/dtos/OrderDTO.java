@@ -46,7 +46,10 @@ public class OrderDTO implements Serializable{
 	
 	public OrderDTO(Order entity, Set<Product> listProducts) {
 		this(entity);
-		listProducts.forEach(prods -> this.products.add(new ProductDTO(prods)));
+		//listProducts.forEach(prods -> this.products.add(new ProductDTO(prods)));
+		for(Product prod : listProducts) {
+			this.products.add(new ProductDTO(prod));
+		}
 	}
 
 	public Long getId() {

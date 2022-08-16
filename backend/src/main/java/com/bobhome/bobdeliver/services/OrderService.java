@@ -45,9 +45,17 @@ public class OrderService {
 	public OrderDTO insert(OrderDTO orderDto) {
 		Order entity = new Order();
 		copyDTOtoEntity(orderDto, entity);
+		entity.setStatus(OrderStatus.PENDING);
 		entity = repository.save(entity);
 		return new OrderDTO(entity);
-		
+	}
+	
+	@Transactional
+	public OrderDTO setDelivered(Long id) {
+		Order entity = repository.getById(id);
+		entity.setStatus(OrderStatus.DELIVERED);
+		entity = repository.save(entity);
+		return new OrderDTO(entity, entity.getProducts());
 	}
 
 	private void copyDTOtoEntity(OrderDTO orderDto, Order entity) {
@@ -55,7 +63,6 @@ public class OrderService {
 		entity.setLatitude(orderDto.getLatitude());
 		entity.setLongitude(orderDto.getLongitude());
 		entity.setMoment(Instant.now());
-		entity.setStatus(OrderStatus.PENDING);
 		
 		entity.getProducts().clear();
 		for(ProductDTO prodDto : orderDto.getProducts()) {
